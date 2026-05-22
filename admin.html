@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BarberFade – Panel Admin</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='8' fill='%230d0b07'/%3E%3Ccircle cx='32' cy='32' r='3' fill='%23ffcc00'/%3E%3C/svg%3E">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --gold: #ffcc00;
+            --gold-dim: rgba(255,204,0,0.12);
+            --gold-border: rgba(255,204,0,0.3);
+            --dark: #0a0a0a;
+            --dark2: #111007;
+            --card: rgba(16,14,4,0.95);
+            --radius: 12px;
+            --green: #25D366;
+            --red: #e53e3e;
+            --gray: rgba(255,255,255,0.35);
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: #0a0900;
+            color: white;
+            min-height: 100vh;
+        }
+
+        /* ===== LOGIN ===== */
+        #login-screen {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #0a0900 0%, #1a1400 100%);
+        }
+
+        .login-box {
+            background: var(--card);
+            border: 1px solid var(--gold-border);
+            border-radius: 16px;
+            padding: 48px 40px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.8);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .login-logo {
+            text-align: center;
+            margin-bottom: 8px;
+        }
+
+        .login-logo h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 6px;
+        }
+
+        .login-logo h1 span { color: var(--gold); }
+
+        .login-logo p {
+            font-size: 11px;
+            letter-spacing: 3px;
+            color: var(--gray);
+            text-transform: uppercase;
+            margin-top: 6px;
+        }
+
+        .login-box label {
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--gray);
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .login-box input {
+            width: 100%;
+            height: 48px;
+            padding: 0 16px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--gold-border);
+            border-radius: 8px;
+            color: white;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 15px;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .login-box input:focus {
+            border-color: var(--gold);
+            background: rgba(255,204,0,0.05);
+        }
+
+        .btn-login {
+            width: 100%;
+            height: 50px;
+            background: linear-gradient(135deg, #ffcc00, #ff9f1c);
+            color: #0a0a0a;
+            border: none;
+            border-radius: 8px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+            margin-top: 8px;
+        }
+
+        .btn-login:hover { filter: brightness(1.1); transform: translateY(-2px); }
+
+        .login-error {
+            color: #fc8181;
+            font-size: 13px;
+            text-align: center;
+            display: none;
+        }
+
+        /* ===== PANEL ===== */
+        #admin-panel { display: none; }
+
+        header {
+            background: rgba(5,4,0,0.95);
+            border-bottom: 1px solid var(--gold-border);
+            padding: 16px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(12px);
+        }
+
+        .header-title {
+            font-family: 'Cinzel', serif;
+            font-size: 18px;
+            letter-spacing: 4px;
+        }
+
+        .header-title span { color: var(--gold); }
+
+        .btn-logout {
+            background: transparent;
+            border: 1px solid var(--gold-border);
+            color: var(--gray);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-logout:hover { border-color: var(--gold); color: var(--gold); }
+
+        main { max-width: 1100px; margin: 0 auto; padding: 40px 24px; }
+
+        /* ===== STATS ===== */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 36px;
+        }
+
+        .stat-card {
+            background: var(--card);
+            border: 1px solid var(--gold-border);
+            border-radius: var(--radius);
+            padding: 24px;
+            text-align: center;
+        }
+
+        .stat-num {
+            font-family: 'Cinzel', serif;
+            font-size: 36px;
+            color: var(--gold);
+            font-weight: 700;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--gray);
+            margin-top: 6px;
+        }
+
+        /* ===== FILTRO FECHA ===== */
+        .filtros {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .filtros label {
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--gray);
+        }
+
+        .filtros input[type="date"] {
+            height: 42px;
+            padding: 0 14px;
+            background: var(--card);
+            border: 1px solid var(--gold-border);
+            border-radius: 8px;
+            color: white;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            outline: none;
+            color-scheme: dark;
+            cursor: pointer;
+        }
+
+        .filtros input[type="date"]:focus { border-color: var(--gold); }
+
+        .btn-hoy {
+            height: 42px;
+            padding: 0 20px;
+            background: var(--gold-dim);
+            border: 1px solid var(--gold-border);
+            border-radius: 8px;
+            color: var(--gold);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-hoy:hover { background: var(--gold); color: #0a0a0a; }
+
+        /* ===== CITAS ===== */
+        .seccion-titulo {
+            font-family: 'Cinzel', serif;
+            font-size: 12px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--gray);
+            margin-bottom: 16px;
+        }
+
+        .citas-lista {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .cita-card {
+            background: var(--card);
+            border: 1px solid var(--gold-border);
+            border-radius: var(--radius);
+            padding: 20px 24px;
+            display: grid;
+            grid-template-columns: 80px 1fr auto;
+            gap: 20px;
+            align-items: center;
+            transition: all 0.2s;
+        }
+
+        .cita-card:hover { border-color: rgba(255,204,0,0.5); }
+
+        .cita-card.completada {
+            opacity: 0.45;
+            border-color: rgba(255,255,255,0.1);
+        }
+
+        .cita-card.cancelada {
+            opacity: 0.35;
+            border-color: rgba(255,80,80,0.2);
+        }
+
+        .cita-hora {
+            font-family: 'Cinzel', serif;
+            font-size: 22px;
+            color: var(--gold);
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .cita-info h3 {
+            font-size: 17px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .cita-servicios {
+            font-size: 13px;
+            color: var(--gray);
+            margin-bottom: 4px;
+        }
+
+        .cita-total {
+            font-size: 13px;
+            color: var(--gold);
+            font-weight: 600;
+        }
+
+        .cita-estado {
+            display: inline-block;
+            font-size: 10px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 3px 10px;
+            border-radius: 50px;
+            margin-top: 6px;
+            font-weight: 600;
+        }
+
+        .estado-activa  { background: rgba(37,211,102,0.15); color: #25D366; }
+        .estado-completada { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.4); }
+        .estado-cancelada  { background: rgba(229,62,62,0.15); color: #fc8181; }
+
+        .cita-acciones {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .btn-completar, .btn-cancelar {
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .btn-completar {
+            background: rgba(37,211,102,0.15);
+            color: #25D366;
+            border: 1px solid rgba(37,211,102,0.3);
+        }
+
+        .btn-completar:hover { background: #25D366; color: white; }
+
+        .btn-cancelar {
+            background: rgba(229,62,62,0.1);
+            color: #fc8181;
+            border: 1px solid rgba(229,62,62,0.25);
+        }
+
+        .btn-cancelar:hover { background: var(--red); color: white; }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--gray);
+        }
+
+        .empty-state .emoji { font-size: 48px; margin-bottom: 16px; }
+        .empty-state p { font-size: 15px; letter-spacing: 1px; }
+
+        .loading {
+            text-align: center;
+            padding: 60px;
+            color: var(--gray);
+            font-size: 14px;
+            letter-spacing: 2px;
+        }
+
+        @media (max-width: 600px) {
+            .stats { grid-template-columns: repeat(2, 1fr); }
+            .cita-card { grid-template-columns: 60px 1fr; }
+            .cita-acciones { flex-direction: row; grid-column: 1 / -1; }
+            header { padding: 14px 16px; }
+            main { padding: 24px 16px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ===== LOGIN ===== -->
+<div id="login-screen">
+    <div class="login-box">
+        <div class="login-logo">
+            <h1>BARBER<span>FADE</span></h1>
+            <p>Panel de administración</p>
+        </div>
+        <div>
+            <label>Correo</label>
+            <input type="email" id="login-email" placeholder="correo@ejemplo.com">
+        </div>
+        <div>
+            <label>Contraseña</label>
+            <input type="password" id="login-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter') iniciarSesion()">
+        </div>
+        <p class="login-error" id="login-error">Correo o contraseña incorrectos</p>
+        <button class="btn-login" onclick="iniciarSesion()">Entrar al panel</button>
+    </div>
+</div>
+
+<!-- ===== PANEL ADMIN ===== -->
+<div id="admin-panel">
+    <header>
+        <div class="header-title">BARBER<span>FADE</span> &nbsp;✦&nbsp; Admin</div>
+        <button class="btn-logout" onclick="cerrarSesion()">Cerrar sesión</button>
+    </header>
+
+    <main>
+        <!-- Stats -->
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-num" id="stat-hoy">0</div>
+                <div class="stat-label">Citas hoy</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num" id="stat-total">0</div>
+                <div class="stat-label">Total citas</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num" id="stat-ingresos">$0</div>
+                <div class="stat-label">Ingresos hoy</div>
+            </div>
+        </div>
+
+        <!-- Filtro -->
+        <div class="filtros">
+            <label>📅 Ver citas del:</label>
+            <input type="date" id="filtro-fecha" onchange="cargarCitas()">
+            <button class="btn-hoy" onclick="filtrarHoy()">Hoy</button>
+        </div>
+
+        <p class="seccion-titulo">Citas del día</p>
+
+        <div class="citas-lista" id="citas-lista">
+            <div class="loading">Cargando citas...</div>
+        </div>
+    </main>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getFirestore, collection, query, where, getDocs, doc, updateDoc, getCountFromServer } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyCPAxRLZDWgEBkdaL1RjL9HbC7rsNnjthM",
+    authDomain: "barberia-a944e.firebaseapp.com",
+    projectId: "barberia-a944e",
+    storageBucket: "barberia-a944e.firebasestorage.app",
+    messagingSenderId: "83047811200",
+    appId: "1:83047811200:web:93228e92c1a5acbe22be65"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+// ===== AUTH =====
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        document.getElementById('login-screen').style.display = 'none';
+        document.getElementById('admin-panel').style.display = 'block';
+        filtrarHoy();
+        cargarStats();
+    } else {
+        document.getElementById('login-screen').style.display = 'flex';
+        document.getElementById('admin-panel').style.display = 'none';
+    }
+});
+
+window.iniciarSesion = async function() {
+    const email = document.getElementById('login-email').value.trim();
+    const pass  = document.getElementById('login-pass').value;
+    const errEl = document.getElementById('login-error');
+    errEl.style.display = 'none';
+    try {
+        await signInWithEmailAndPassword(auth, email, pass);
+    } catch(e) {
+        errEl.style.display = 'block';
+    }
+};
+
+window.cerrarSesion = async function() {
+    await signOut(auth);
+};
+
+// ===== FECHA HOY =====
+function hoyISO() {
+    const hoy = new Date();
+    return hoy.toISOString().split('T')[0];
+}
+
+window.filtrarHoy = function() {
+    document.getElementById('filtro-fecha').value = hoyISO();
+    cargarCitas();
+};
+
+// ===== CARGAR STATS =====
+async function cargarStats() {
+    try {
+        const hoy = hoyISO();
+
+        // Citas de hoy
+        const qHoy = query(collection(db, "citas"), where("fecha", "==", hoy));
+        const snapHoy = await getDocs(qHoy);
+        document.getElementById('stat-hoy').innerText = snapHoy.size;
+
+        // Total citas
+        const qTotal = query(collection(db, "citas"));
+        const snapTotal = await getDocs(qTotal);
+        document.getElementById('stat-total').innerText = snapTotal.size;
+
+        // Ingresos hoy (solo activas y completadas)
+        let ingresos = 0;
+        snapHoy.forEach(d => {
+            const data = d.data();
+            if (data.estado !== 'cancelada') ingresos += data.total || 0;
+        });
+        document.getElementById('stat-ingresos').innerText = '$' + ingresos.toLocaleString('es-CO');
+    } catch(e) {
+        console.error(e);
+    }
+}
+
+// ===== CARGAR CITAS =====
+window.cargarCitas = async function() {
+    const fecha = document.getElementById('filtro-fecha').value;
+    const lista = document.getElementById('citas-lista');
+    lista.innerHTML = '<div class="loading">Cargando...</div>';
+
+    try {
+        const q = query(collection(db, "citas"), where("fecha", "==", fecha));
+        const snap = await getDocs(q);
+
+        if (snap.empty) {
+            lista.innerHTML = `
+                <div class="empty-state">
+                    <div class="emoji">✂️</div>
+                    <p>No hay citas para este día</p>
+                </div>`;
+            return;
+        }
+
+        // Ordenar por hora
+        const citas = [];
+        snap.forEach(d => citas.push({ id: d.id, ...d.data() }));
+        citas.sort((a, b) => a.hora.localeCompare(b.hora));
+
+        lista.innerHTML = '';
+        citas.forEach(cita => {
+            const serviciosTexto = Array.isArray(cita.servicios)
+                ? cita.servicios.join('<br>')
+                : cita.servicios || '';
+
+            const card = document.createElement('div');
+            card.className = `cita-card ${cita.estado}`;
+            card.id = `cita-${cita.id}`;
+            card.innerHTML = `
+                <div class="cita-hora">${cita.hora}</div>
+                <div class="cita-info">
+                    <h3>👤 ${cita.nombre}</h3>
+                    <div class="cita-servicios">${serviciosTexto}</div>
+                    <div class="cita-total">💰 $${(cita.total||0).toLocaleString('es-CO')}</div>
+                    <span class="cita-estado estado-${cita.estado}">${cita.estado}</span>
+                </div>
+                <div class="cita-acciones">
+                    ${cita.estado === 'activa' ? `
+                        <button class="btn-completar" onclick="cambiarEstado('${cita.id}', 'completada')">✅ Completada</button>
+                        <button class="btn-cancelar"  onclick="cambiarEstado('${cita.id}', 'cancelada')">❌ Cancelar</button>
+                    ` : `<span style="font-size:12px;color:var(--gray);letter-spacing:1px">${cita.estado.toUpperCase()}</span>`}
+                </div>
+            `;
+            lista.appendChild(card);
+        });
+
+    } catch(e) {
+        lista.innerHTML = '<div class="loading">Error cargando citas</div>';
+        console.error(e);
+    }
+};
+
+// ===== CAMBIAR ESTADO =====
+window.cambiarEstado = async function(id, nuevoEstado) {
+    try {
+        await updateDoc(doc(db, "citas", id), { estado: nuevoEstado });
+        await cargarCitas();
+        await cargarStats();
+    } catch(e) {
+        console.error(e);
+    }
+};
+</script>
+</body>
+</html>
