@@ -113,9 +113,9 @@ ${serviciosEscogidos.join('\n')}
 ✅ *Gracias por preferir MondáBarber*`;
 
         // ===== ENVIAR A WHATSAPP =====
-        setTimeout(() => {
-            const url = `https://wa.me/573138145675?text=${encodeURIComponent(mensaje)}`;
-            window.open(url, "_blank");
+       setTimeout(() => {
+       const url = "https://api.whatsapp.com/send?phone=573138145675&text=" + encodeURIComponent(mensaje);
+       window.location.href = url;
         }, 1200);
 
     } catch (error) {
