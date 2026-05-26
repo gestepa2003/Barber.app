@@ -83,7 +83,7 @@
             </div>
             <nav class="nav-links">
                 <a href="#">Servicios</a>
-                <a href="#">Galer&#237;a</a>
+                <a href="#">Galería</a>
                 <a href="#">Contacto</a>
             </nav>
         </div>
@@ -155,17 +155,17 @@
 
         <div class="formulario">
             <div class="input-group">
-                <label>&#128100; Nombre</label>
+                <label>👤 Nombre</label>
                 <input type="text" id="inp-nombre" placeholder="Tu nombre completo">
             </div>
             <div class="input-group">
-                <label>&#128197; Fecha</label>
+                <label>📅 Fecha</label>
                 <input type="text" id="inp-fecha" placeholder="Selecciona la fecha"
                     onfocus="this.type='date'"
                     onblur="if(this.value === '') this.type='text'">
             </div>
             <div class="input-group">
-                <label>&#128336; Hora</label>
+                <label>🕐 Hora</label>
                 <input type="text" id="inp-hora" placeholder="Selecciona la hora"
                     onfocus="this.type='time'"
                     onblur="if(this.value === '') this.type='text'">
@@ -180,186 +180,271 @@
     </main>
 
     <footer>
-        <p>&#10022; BarberFade &nbsp;|&nbsp; Bogot&#225;, Colombia &nbsp;|&nbsp; <a href="tel:+573138145675">+57 313 814 5675</a> &#10022;</p>
+        <p>&#10022; BarberFade &nbsp;|&nbsp; Bogotá;, Colombia &nbsp;|&nbsp; <a href="tel:+573138145675">+57 313 814 5675</a> &#10022;</p>
     </footer>
 
-    <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, collection, addDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyCPAxRLZDWgEBkdaL1RjL9HbC7rsNnjthM",
-        authDomain: "barberia-a944e.firebaseapp.com",
-        projectId: "barberia-a944e",
-        storageBucket: "barberia-a944e.firebasestorage.app",
-        messagingSenderId: "83047811200",
-        appId: "1:83047811200:web:93228e92c1a5acbe22be65"
-    };
+const firebaseConfig = {
+    apiKey: "TU_API_KEY",
+    authDomain: "barberia-a944e.firebaseapp.com",
+    projectId: "barberia-a944e",
+    storageBucket: "barberia-a944e.firebasestorage.app",
+    messagingSenderId: "83047811200",
+    appId: "1:83047811200:web:93228e92c1a5acbe22be65"
+};
 
-    const app = initializeApp(firebaseConfig);
-    const db  = getFirestore(app);
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-    // Emojis como entidades unicode para evitar problemas de encoding
-    const E = {
-        check:  "✔",
-        person: "►",
-        cal:    "►",
-        clock:  "►",
-        pole:   "•",
-        sciss:  "•",
-        money:  "►"
-    };
+const precios = { barba: 20000, corte: 20000, cejas: 20000 };
+const cantidades = { barba: 0, corte: 0, cejas: 0 };
 
-    // ===== PARTICULAS =====
-    (function() {
-        const container = document.getElementById('particles');
-        for (let i = 0; i < 28; i++) {
-            const p = document.createElement('div');
-            p.className = 'particle';
-            p.style.left = Math.random() * 100 + 'vw';
-            p.style.width = (Math.random() * 2 + 1) + 'px';
-            p.style.height = p.style.width;
-            p.style.animationDuration = (Math.random() * 12 + 8) + 's';
-            p.style.animationDelay = (Math.random() * 10) + 's';
-            p.style.opacity = Math.random() * 0.6 + 0.2;
-            container.appendChild(p);
-        }
-    })();
+const EMOJI = {
+    barber: "\u{1F488}",
+    scissors: "\u2702\uFE0F",
+    fire: "\u{1F525}",
+    person: "\u{1F464}",
+    calendar: "\u{1F4C5}",
+    clock: "\u{1F550}",
+    money: "\u{1F4B0}",
+    check: "\u2705"
+};
 
-    // ===== SERVICIOS =====
-    const precios    = { barba: 20000, corte: 20000, cejas: 20000 };
-    const cantidades = { barba: 0, corte: 0, cejas: 0 };
+(function crearParticulas() {
+    const container = document.getElementById("particles");
+    if (!container) return;
 
-    function cambiarCantidad(servicio, cambio) {
-        cantidades[servicio] += cambio;
-        if (cantidades[servicio] < 0) cantidades[servicio] = 0;
-        document.getElementById('cantidad-' + servicio).innerText = cantidades[servicio];
-        const badge = document.getElementById('badge-' + servicio);
-        badge.innerText = cantidades[servicio];
-        badge.classList.toggle('visible', cantidades[servicio] > 0);
-        calcularTotal();
+    for (let i = 0; i < 28; i++) {
+        const p = document.createElement("div");
+        p.className = "particle";
+        p.style.left = Math.random() * 100 + "vw";
+        p.style.width = Math.random() * 2 + 1 + "px";
+        p.style.height = p.style.width;
+        p.style.animationDuration = Math.random() * 12 + 8 + "s";
+        p.style.animationDelay = Math.random() * 10 + "s";
+        p.style.opacity = Math.random() * 0.6 + 0.2;
+        container.appendChild(p);
+    }
+})();
+
+function cambiarCantidad(servicio, cambio) {
+    cantidades[servicio] += cambio;
+
+    if (cantidades[servicio] < 0) {
+        cantidades[servicio] = 0;
     }
 
-    function calcularTotal() {
-        const total = (cantidades.barba * precios.barba)
-                    + (cantidades.corte * precios.corte)
-                    + (cantidades.cejas * precios.cejas);
-        const el = document.getElementById('total');
-        el.innerText = '$' + total.toLocaleString('es-CO');
-        el.classList.remove('total-pulse');
-        void el.offsetWidth;
-        el.classList.add('total-pulse');
-    }
+    document.getElementById("cantidad-" + servicio).innerText = cantidades[servicio];
 
-    async function verificarDisponibilidad(fecha, hora) {
-        const q = query(
-            collection(db, "citas"),
-            where("fecha", "==", fecha),
-            where("hora",  "==", hora),
-            where("estado","==", "activa")
+    const badge = document.getElementById("badge-" + servicio);
+    badge.innerText = cantidades[servicio];
+    badge.classList.toggle("visible", cantidades[servicio] > 0);
+
+    calcularTotal();
+}
+
+function calcularTotal() {
+    const total =
+        cantidades.barba * precios.barba +
+        cantidades.corte * precios.corte +
+        cantidades.cejas * precios.cejas;
+
+    const el = document.getElementById("total");
+    el.innerText = "$" + total.toLocaleString("es-CO");
+    el.classList.remove("total-pulse");
+    void el.offsetWidth;
+    el.classList.add("total-pulse");
+}
+
+async function verificarDisponibilidad(fecha, hora) {
+    const q = query(
+        collection(db, "citas"),
+        where("fecha", "==", fecha),
+        where("hora", "==", hora),
+        where("estado", "==", "activa")
+    );
+
+    const snap = await getDocs(q);
+    return snap.empty;
+}
+
+function restaurarBtnWsp() {
+    return `
+        <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+        Confirmar por WhatsApp
+    `;
+}
+
+async function reservar() {
+    const nombre = document.getElementById("inp-nombre").value.trim();
+    const fecha = document.getElementById("inp-fecha").value;
+    const hora = document.getElementById("inp-hora").value;
+
+    let total = 0;
+    let serviciosEscogidos = [];
+
+    if (cantidades.barba > 0) {
+        const subtotal = cantidades.barba * precios.barba;
+        total += subtotal;
+        serviciosEscogidos.push(
+            `\u2022 Corte + barba x${cantidades.barba} \u2192 $${subtotal.toLocaleString("es-CO")}`
         );
-        const snap = await getDocs(q);
-        return snap.empty;
     }
 
-    function btnWspHTML() {
-        return '<svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Confirmar por WhatsApp';
+    if (cantidades.corte > 0) {
+        const subtotal = cantidades.corte * precios.corte;
+        total += subtotal;
+        serviciosEscogidos.push(
+            `\u2022 Solo corte x${cantidades.corte} \u2192 $${subtotal.toLocaleString("es-CO")}`
+        );
     }
 
-    async function reservar() {
-        const nombre = document.getElementById('inp-nombre').value.trim();
-        const fecha  = document.getElementById('inp-fecha').value;
-        const hora   = document.getElementById('inp-hora').value;
-
-        let total = 0;
-        let servicios = [];
-
-        if (cantidades.barba > 0) {
-            total += cantidades.barba * precios.barba;
-            servicios.push("• Corte + barba x" + cantidades.barba + " = $" + (cantidades.barba * precios.barba).toLocaleString('es-CO'));
-        }
-        if (cantidades.corte > 0) {
-            total += cantidades.corte * precios.corte;
-            servicios.push("• Solo corte x" + cantidades.corte + " = $" + (cantidades.corte * precios.corte).toLocaleString('es-CO'));
-        }
-        if (cantidades.cejas > 0) {
-            total += cantidades.cejas * precios.cejas;
-            servicios.push("• Corte + cejas x" + cantidades.cejas + " = $" + (cantidades.cejas * precios.cejas).toLocaleString('es-CO'));
-        }
-
-        if (total === 0) { mostrarAlerta('Selecciona al menos un servicio primero'); return; }
-        if (!nombre)     { mostrarAlerta('Por favor ingresa tu nombre'); return; }
-        if (!fecha)      { mostrarAlerta('Por favor selecciona una fecha'); return; }
-        if (!hora)       { mostrarAlerta('Por favor selecciona una hora'); return; }
-
-        const btn = document.querySelector('.btn-whatsapp');
-        btn.disabled = true;
-        btn.innerHTML = 'Verificando disponibilidad...';
-
-        try {
-            const disponible = await verificarDisponibilidad(fecha, hora);
-            if (!disponible) {
-                mostrarAlerta('Ese horario ya esta reservado, elige otro');
-                btn.disabled = false;
-                btn.innerHTML = btnWspHTML();
-                return;
-            }
-
-            await addDoc(collection(db, "citas"), {
-                nombre, fecha, hora,
-                servicios,
-                total,
-                estado: "activa",
-                creadoEn: new Date().toISOString()
-            });
-
-            mostrarAlerta('Cita guardada! Redirigiendo a WhatsApp...');
-
-            const fechaF = new Date(fecha + 'T00:00:00').toLocaleDateString('es-CO', {
-                weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
-            });
-
-            const msg = "✔ Hola BarberFade, quiero reservar una cita!\n\n"
-                      + "► Nombre: " + nombre + "\n"
-                      + "► Fecha: "  + fechaF + "\n"
-                      + "► Hora: "   + hora   + "\n\n"
-                      + "Servicios:\n" + servicios.join('\n') + "\n\n"
-                      + "► Total: $" + total.toLocaleString('es-CO');
-
-            setTimeout(() => {
-                window.open('https://wa.me/573138145675?text=' + encodeURIComponent(msg), '_blank');
-            }, 1200);
-
-        } catch(err) {
-            console.error(err);
-            mostrarAlerta('Hubo un error, intenta de nuevo');
-        } finally {
-            btn.disabled = false;
-            btn.innerHTML = btnWspHTML();
-        }
+    if (cantidades.cejas > 0) {
+        const subtotal = cantidades.cejas * precios.cejas;
+        total += subtotal;
+        serviciosEscogidos.push(
+            `\u2022 Corte + cejas x${cantidades.cejas} \u2192 $${subtotal.toLocaleString("es-CO")}`
+        );
     }
 
-    function mostrarAlerta(msg) {
-        const prev = document.getElementById('alerta-custom');
-        if (prev) prev.remove();
-        const a = document.createElement('div');
-        a.id = 'alerta-custom';
-        a.style.cssText = 'position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(20px);background:linear-gradient(135deg,#1a1500,#2a2000);border:1px solid rgba(255,204,0,0.5);color:#ffcc00;padding:14px 28px;border-radius:50px;font-family:DM Sans,sans-serif;font-size:14px;font-weight:500;box-shadow:0 10px 40px rgba(0,0,0,0.6);z-index:9999;opacity:0;transition:all 0.35s cubic-bezier(0.34,1.56,0.64,1);white-space:nowrap';
-        a.innerText = msg;
-        document.body.appendChild(a);
-        requestAnimationFrame(() => {
-            a.style.opacity = '1';
-            a.style.transform = 'translateX(-50%) translateY(0)';
+    if (total === 0) {
+        mostrarAlerta("Selecciona al menos un servicio");
+        return;
+    }
+
+    if (!nombre) {
+        mostrarAlerta("Ingresa tu nombre");
+        return;
+    }
+
+    if (!fecha) {
+        mostrarAlerta("Selecciona una fecha");
+        return;
+    }
+
+    if (!hora) {
+        mostrarAlerta("Selecciona una hora");
+        return;
+    }
+
+    const hoy = new Date();
+    hoy.setHours(0, 0, 0, 0);
+
+    const fechaSeleccionada = new Date(fecha + "T00:00:00");
+
+    if (fechaSeleccionada < hoy) {
+        mostrarAlerta("No puedes reservar una fecha pasada");
+        return;
+    }
+
+    const btnWsp = document.querySelector(".btn-whatsapp");
+    btnWsp.disabled = true;
+    btnWsp.innerHTML = "Verificando disponibilidad...";
+
+    try {
+        const disponible = await verificarDisponibilidad(fecha, hora);
+
+        if (!disponible) {
+            mostrarAlerta("Ese horario ya esta reservado");
+            btnWsp.disabled = false;
+            btnWsp.innerHTML = restaurarBtnWsp();
+            return;
+        }
+
+        await addDoc(collection(db, "citas"), {
+            nombre,
+            fecha,
+            hora,
+            servicios: serviciosEscogidos,
+            total,
+            estado: "activa",
+            creadoEn: new Date().toISOString()
         });
+
+        mostrarAlerta("Cita guardada. Redirigiendo a WhatsApp...");
+
+        const partes = fecha.split("-");
+        const anio = partes[0];
+        const mesNum = partes[1];
+        const dia = partes[2];
+
+        const meses = [
+            "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+            "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+        ];
+
+        const nombreMes = meses[parseInt(mesNum, 10) - 1];
+        const fechaFormateada = `${dia} de ${nombreMes} de ${anio}`;
+
+        const mensaje =
+`${EMOJI.barber} *Hola Mond\u00e1Barber* ${EMOJI.scissors}
+
+${EMOJI.fire} *Quiero reservar una cita*
+
+${EMOJI.person} *Nombre:* ${nombre}
+${EMOJI.calendar} *Fecha:* ${fechaFormateada}
+${EMOJI.clock} *Hora:* ${hora}
+
+----------------
+
+${EMOJI.barber} *Servicios:*
+${serviciosEscogidos.join("\n")}
+
+----------------
+
+${EMOJI.money} *Total:* $${total.toLocaleString("es-CO")}
+
+${EMOJI.check} *Gracias por preferir Mond\u00e1Barber*`;
+
         setTimeout(() => {
-            a.style.opacity = '0';
-            a.style.transform = 'translateX(-50%) translateY(10px)';
-            setTimeout(() => a.remove(), 400);
-        }, 3000);
+            const url = "https://wa.me/573138145675?text=" + encodeURIComponent(mensaje);
+            window.open(url, "_blank");
+
+            btnWsp.disabled = false;
+            btnWsp.innerHTML = restaurarBtnWsp();
+        }, 1200);
+
+    } catch (error) {
+        console.error(error);
+        mostrarAlerta("Hubo un error, intenta nuevamente");
+        btnWsp.disabled = false;
+        btnWsp.innerHTML = restaurarBtnWsp();
+    }
+}
+
+function mostrarAlerta(msg) {
+    const prev = document.getElementById("alerta-custom");
+
+    if (prev) {
+        prev.remove();
     }
 
-    window.cambiarCantidad = cambiarCantidad;
-    window.reservar = reservar;
-    </script>
+    const a = document.createElement("div");
+    a.id = "alerta-custom";
+    a.style.cssText = "position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(20px);background:linear-gradient(135deg,#1a1500,#2a2000);border:1px solid rgba(255,204,0,0.5);color:#ffcc00;padding:14px 28px;border-radius:50px;font-family:DM Sans,sans-serif;font-size:14px;font-weight:500;box-shadow:0 10px 40px rgba(0,0,0,0.6);z-index:9999;opacity:0;transition:all 0.35s cubic-bezier(0.34,1.56,0.64,1);white-space:nowrap";
+    a.innerText = msg;
+
+    document.body.appendChild(a);
+
+    requestAnimationFrame(() => {
+        a.style.opacity = "1";
+        a.style.transform = "translateX(-50%) translateY(0)";
+    });
+
+    setTimeout(() => {
+        a.style.opacity = "0";
+        a.style.transform = "translateX(-50%) translateY(10px)";
+        setTimeout(() => a.remove(), 400);
+    }, 3000);
+}
+
+window.cambiarCantidad = cambiarCantidad;
+window.reservar = reservar;
+</script>
 </body>
 </html>
