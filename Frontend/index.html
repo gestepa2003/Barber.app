@@ -188,7 +188,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/fireba
 import { getFirestore, collection, addDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const firebaseConfig = {
-    apiKey: "TU_API_KEY",
+    apiKey: "AIzaSyCPAxRLZDWgEBkdaL1RjL9HbC7rsNnjthM",
     authDomain: "barberia-a944e.firebaseapp.com",
     projectId: "barberia-a944e",
     storageBucket: "barberia-a944e.firebasestorage.app",
@@ -199,18 +199,33 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-const precios = { barba: 20000, corte: 20000, cejas: 20000 };
-const cantidades = { barba: 0, corte: 0, cejas: 0 };
+const precios = {
+    barba: 20000,
+    corte: 20000,
+    cejas: 20000
+};
+
+const cantidades = {
+    barba: 0,
+    corte: 0,
+    cejas: 0
+};
 
 const EMOJI = {
-    barber: "\u{1F488}",
-    scissors: "\u2702\uFE0F",
-    fire: "\u{1F525}",
-    person: "\u{1F464}",
-    calendar: "\u{1F4C5}",
-    clock: "\u{1F550}",
-    money: "\u{1F4B0}",
-    check: "\u2705"
+    barber: String.fromCodePoint(0x1F488),
+    scissors: String.fromCodePoint(0x2702) + String.fromCodePoint(0xFE0F),
+    fire: String.fromCodePoint(0x1F525),
+    person: String.fromCodePoint(0x1F464),
+    calendar: String.fromCodePoint(0x1F4C5),
+    clock: String.fromCodePoint(0x1F550),
+    money: String.fromCodePoint(0x1F4B0),
+    check: String.fromCodePoint(0x2705)
+};
+
+const CHAR = {
+    bullet: String.fromCharCode(0x2022),
+    arrow: String.fromCharCode(0x2192),
+    aAccent: String.fromCharCode(0x00E1)
 };
 
 (function crearParticulas() {
@@ -291,25 +306,19 @@ async function reservar() {
     if (cantidades.barba > 0) {
         const subtotal = cantidades.barba * precios.barba;
         total += subtotal;
-        serviciosEscogidos.push(
-            `\u2022 Corte + barba x${cantidades.barba} \u2192 $${subtotal.toLocaleString("es-CO")}`
-        );
+        serviciosEscogidos.push(`${CHAR.bullet} Corte + barba x${cantidades.barba} ${CHAR.arrow} $${subtotal.toLocaleString("es-CO")}`);
     }
 
     if (cantidades.corte > 0) {
         const subtotal = cantidades.corte * precios.corte;
         total += subtotal;
-        serviciosEscogidos.push(
-            `\u2022 Solo corte x${cantidades.corte} \u2192 $${subtotal.toLocaleString("es-CO")}`
-        );
+        serviciosEscogidos.push(`${CHAR.bullet} Solo corte x${cantidades.corte} ${CHAR.arrow} $${subtotal.toLocaleString("es-CO")}`);
     }
 
     if (cantidades.cejas > 0) {
         const subtotal = cantidades.cejas * precios.cejas;
         total += subtotal;
-        serviciosEscogidos.push(
-            `\u2022 Corte + cejas x${cantidades.cejas} \u2192 $${subtotal.toLocaleString("es-CO")}`
-        );
+        serviciosEscogidos.push(`${CHAR.bullet} Corte + cejas x${cantidades.cejas} ${CHAR.arrow} $${subtotal.toLocaleString("es-CO")}`);
     }
 
     if (total === 0) {
@@ -329,6 +338,11 @@ async function reservar() {
 
     if (!hora) {
         mostrarAlerta("Selecciona una hora");
+        return;
+    }
+
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(fecha)) {
+        mostrarAlerta("La fecha no es valida");
         return;
     }
 
@@ -366,8 +380,6 @@ async function reservar() {
             creadoEn: new Date().toISOString()
         });
 
-        mostrarAlerta("Cita guardada. Redirigiendo a WhatsApp...");
-
         const partes = fecha.split("-");
         const anio = partes[0];
         const mesNum = partes[1];
@@ -380,9 +392,10 @@ async function reservar() {
 
         const nombreMes = meses[parseInt(mesNum, 10) - 1];
         const fechaFormateada = `${dia} de ${nombreMes} de ${anio}`;
+        const marca = "Mond" + CHAR.aAccent + "Barber";
 
         const mensaje =
-`${EMOJI.barber} *Hola Mond\u00e1Barber* ${EMOJI.scissors}
+`${EMOJI.barber} *Hola ${marca}* ${EMOJI.scissors}
 
 ${EMOJI.fire} *Quiero reservar una cita*
 
@@ -399,10 +412,12 @@ ${serviciosEscogidos.join("\n")}
 
 ${EMOJI.money} *Total:* $${total.toLocaleString("es-CO")}
 
-${EMOJI.check} *Gracias por preferir Mond\u00e1Barber*`;
+${EMOJI.check} *Gracias por preferir ${marca}*`;
+
+        mostrarAlerta("Cita guardada. Redirigiendo a WhatsApp...");
 
         setTimeout(() => {
-            const url = "https://wa.me/573138145675?text=" + encodeURIComponent(mensaje);
+            const url = "https://api.whatsapp.com/send?phone=573138145675&text=" + encodeURIComponent(mensaje);
             window.open(url, "_blank");
 
             btnWsp.disabled = false;
