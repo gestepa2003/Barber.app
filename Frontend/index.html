@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BarberFade – Barbería & Spa Masculino</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='8' fill='%230d0b07'/%3E%3Cg transform='translate(32,32) rotate(-22)'%3E%3Cpolygon points='-22,-4 10,-6 16,-1 10,3 -20,2' fill='%23d4af37' stroke='%238B6914' stroke-width='1'/%3E%3Cpolygon points='-20,-4 -30,-2 -30,2 -20,2' fill='%23d4af37'/%3E%3Cellipse cx='-36' cy='0' rx='7' ry='5' fill='none' stroke='%23c8a000' stroke-width='2'/%3E%3Ccircle cx='-36' cy='0' r='3' fill='%231a1400' stroke='%23d4af37' stroke-width='0.8'/%3E%3C/g%3E%3Cg transform='translate(32,32) rotate(22)'%3E%3Cpolygon points='-22,-4 10,-6 16,-1 10,3 -20,2' fill='%23d4af37' stroke='%238B6914' stroke-width='1'/%3E%3Cpolygon points='-20,-4 -30,-2 -30,2 -20,2' fill='%23d4af37'/%3E%3Cellipse cx='-36' cy='0' rx='7' ry='5' fill='none' stroke='%23c8a000' stroke-width='2'/%3E%3Ccircle cx='-36' cy='0' r='3' fill='%231a1400' stroke='%23d4af37' stroke-width='0.8'/%3E%3C/g%3E%3Ccircle cx='32' cy='32' r='3' fill='%23ffcc00'/%3E%3C/svg%3E">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Cinzel:wght@600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="particles" id="particles"></div>
+
+    <header>
+        <div class="header-inner">
+            <div class="logo-wrap">
+                <svg class="logo-svg" viewBox="0 0 680 320" xmlns="http://www.w3.org/2000/svg">
+                    <style>
+                        .blade { fill: #d4af37; stroke: #8B6914; stroke-width: 1.2; }
+                        .blade-edge { fill: #fff8dc; }
+                        .blade-shadow { fill: #5a3d00; opacity: 0.5; }
+                        .ring-outer { fill: none; stroke: #c8a000; stroke-width: 2.8; }
+                        .ring-inner { fill: rgba(0,0,0,0.4); stroke: #d4af37; stroke-width: 1; }
+                        .screw { fill: #8B6914; stroke: #ffcc00; stroke-width: 0.8; }
+                        .pivot { fill: #ffcc00; }
+                        .nick { fill: none; stroke: #8B6914; stroke-width: 0.8; stroke-linecap: round; }
+                        .logo-title-main { font-family: 'Cinzel', 'Times New Roman', serif; font-size: 78px; font-weight: 400; fill: #ffffff; letter-spacing: 10px; }
+                        .logo-title-sub  { font-family: 'Cinzel', 'Times New Roman', serif; font-size: 78px; font-weight: 400; fill: #ffcc00; letter-spacing: 18px; }
+                        .logo-tag { font-family: 'Cinzel', serif; font-size: 18px; fill: rgba(255,255,255,0.7); letter-spacing: 5px; }
+                        .logo-rule { stroke: rgba(255,204,0,0.25); stroke-width: 0.8; }
+                        .logo-rule-thick { stroke: rgba(255,204,0,0.5); stroke-width: 1; }
+                        .logo-star { fill: #c8a000; }
+                    </style>
+                    <g transform="translate(58, 48) rotate(-22)">
+                        <polygon class="blade-shadow" points="4,8 90,4 105,22 18,28" transform="translate(2,3)"/>
+                        <polygon class="blade" points="0,10 88,2 108,18 95,28 6,24 0,18"/>
+                        <polygon class="blade-edge" points="2,10 88,2 108,18 95,22 4,18"/>
+                        <line class="nick" x1="20" y1="6"  x2="22" y2="14"/>
+                        <line class="nick" x1="42" y1="4"  x2="44" y2="12"/>
+                        <line class="nick" x1="64" y1="4"  x2="65" y2="12"/>
+                        <line class="nick" x1="83" y1="4"  x2="84" y2="11"/>
+                        <polygon class="blade" points="0,10 0,18 -28,22 -30,14"/>
+                        <ellipse class="ring-outer" cx="-42" cy="18" rx="16" ry="13"/>
+                        <ellipse class="ring-inner" cx="-42" cy="18" rx="9" ry="7"/>
+                        <circle class="screw" cx="0" cy="14" r="5"/>
+                        <line x1="-3" y1="14" x2="3" y2="14" stroke="#ffcc00" stroke-width="1" stroke-linecap="round"/>
+                        <line x1="0" y1="11" x2="0" y2="17" stroke="#ffcc00" stroke-width="1" stroke-linecap="round"/>
+                    </g>
+                    <g transform="translate(58, 48) rotate(22)">
+                        <polygon class="blade-shadow" points="4,8 90,4 105,22 18,28" transform="translate(2,3)"/>
+                        <polygon class="blade" points="0,10 88,2 108,18 95,28 6,24 0,18"/>
+                        <polygon class="blade-edge" points="2,10 88,2 108,18 95,22 4,18"/>
+                        <line class="nick" x1="18" y1="6"  x2="20" y2="14"/>
+                        <line class="nick" x1="40" y1="4"  x2="41" y2="12"/>
+                        <line class="nick" x1="62" y1="3"  x2="63" y2="11"/>
+                        <line class="nick" x1="80" y1="4"  x2="82" y2="12"/>
+                        <polygon class="blade" points="0,10 0,18 -28,22 -30,14"/>
+                        <ellipse class="ring-outer" cx="-42" cy="18" rx="16" ry="13"/>
+                        <ellipse class="ring-inner" cx="-42" cy="18" rx="9" ry="7"/>
+                        <circle class="screw" cx="0" cy="14" r="5"/>
+                        <line x1="-3" y1="14" x2="3" y2="14" stroke="#ffcc00" stroke-width="1" stroke-linecap="round"/>
+                        <line x1="0" y1="11" x2="0" y2="17" stroke="#ffcc00" stroke-width="1" stroke-linecap="round"/>
+                    </g>
+                    <circle class="pivot" cx="58" cy="48" r="4"/>
+                    <line class="logo-rule" x1="190" y1="62" x2="650" y2="62"/>
+                    <line class="logo-rule-thick" x1="190" y1="65" x2="650" y2="65"/>
+                    <text class="logo-title-main" x="196" y="152">BARBER</text>
+                    <line class="logo-rule-thick" x1="190" y1="168" x2="320" y2="168"/>
+                    <polygon class="logo-star" points="340,161 344,171 354,171 346,177 349,188 340,182 331,188 334,177 326,171 336,171"/>
+                    <line class="logo-rule-thick" x1="356" y1="168" x2="650" y2="168"/>
+                    <text class="logo-title-sub" x="196" y="248">FADE</text>
+                    <line class="logo-rule-thick" x1="190" y1="256" x2="650" y2="256"/>
+                    <line class="logo-rule" x1="190" y1="259" x2="650" y2="259"/>
+                    <text class="logo-tag" x="420" y="283" text-anchor="middle">BARBER&#205;A &amp; SPA MASCULINO</text>
+                    <text x="194" y="70" font-size="10" fill="#8B6914">&#10022;</text>
+                    <text x="638" y="70" font-size="10" fill="#8B6914">&#10022;</text>
+                    <text x="194" y="265" font-size="10" fill="#8B6914">&#10022;</text>
+                    <text x="638" y="265" font-size="10" fill="#8B6914">&#10022;</text>
+                </svg>
+            </div>
+            <nav class="nav-links">
+                <a href="#">Servicios</a>
+                <a href="#">Galería</a>
+                <a href="#">Contacto</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-badge">&#10022; Premium Grooming &#10022;</div>
+            <h2 class="hero-title">Reserva tu cita<br><span>f&#225;cil y r&#225;pido</span></h2>
+            <p class="hero-sub">El arte del cuidado masculino en un solo lugar</p>
+            <button class="btn-reservar" onclick="reservar()">
+                <span class="btn-icon">&#9986;</span>
+                Reservar ahora
+            </button>
+        </section>
+
+        <div class="divisor"><span></span><span class="diamond">&#9670;</span><span></span></div>
+
+        <h3 class="seccion-titulo">Elige tus servicios</h3>
+
+        <div class="card-grid">
+            <div class="servicio" onclick="cambiarCantidad('barba', 1)">
+                <div class="servicio-icon">&#9986;</div>
+                <div class="servicio-numero" id="badge-barba">0</div>
+                <h3>Corte + Barba</h3>
+                <p class="precio">$20.000</p>
+                <p class="servicio-desc">Estilo completo con acabado en navaja</p>
+                <div class="controles">
+                    <button class="btn-ctrl" onclick="event.stopPropagation(); cambiarCantidad('barba', -1)">&#8722;</button>
+                    <span class="cantidad" id="cantidad-barba">0</span>
+                    <button class="btn-ctrl" onclick="event.stopPropagation(); cambiarCantidad('barba', 1)">+</button>
+                </div>
+            </div>
+            <div class="servicio destacado" onclick="cambiarCantidad('corte', 1)">
+                <div class="popular-badge">M&#225;s popular</div>
+                <div class="servicio-icon">&#128136;</div>
+                <div class="servicio-numero" id="badge-corte">0</div>
+                <h3>Solo Corte</h3>
+                <p class="precio">$20.000</p>
+                <p class="servicio-desc">Corte profesional a tu medida</p>
+                <div class="controles">
+                    <button class="btn-ctrl" onclick="event.stopPropagation(); cambiarCantidad('corte', -1)">&#8722;</button>
+                    <span class="cantidad" id="cantidad-corte">0</span>
+                    <button class="btn-ctrl" onclick="event.stopPropagation(); cambiarCantidad('corte', 1)">+</button>
+                </div>
+            </div>
+            <div class="servicio" onclick="cambiarCantidad('cejas', 1)">
+                <div class="servicio-icon">&#128065;</div>
+                <div class="servicio-numero" id="badge-cejas">0</div>
+                <h3>Corte + Cejas</h3>
+                <p class="precio">$20.000</p>
+                <p class="servicio-desc">Delineado preciso para un look impecable</p>
+                <div class="controles">
+                    <button class="btn-ctrl" onclick="event.stopPropagation(); cambiarCantidad('cejas', -1)">&#8722;</button>
+                    <span class="cantidad" id="cantidad-cejas">0</span>
+                    <button class="btn-ctrl" onclick="event.stopPropagation(); cambiarCantidad('cejas', 1)">+</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="total-box">
+            <span class="total-label">Total</span>
+            <span id="total" class="total-valor">$0</span>
+        </div>
+
+        <div class="divisor"><span></span><span class="diamond">&#9670;</span><span></span></div>
+
+        <h3 class="seccion-titulo">Tus datos para la cita</h3>
+
+        <div class="formulario">
+            <div class="input-group">
+                <label>👤 Nombre</label>
+                <input type="text" id="inp-nombre" placeholder="Tu nombre completo">
+            </div>
+            <div class="input-group">
+                <label>📅 Fecha</label>
+                <input type="text" id="inp-fecha" placeholder="Selecciona la fecha"
+                    onfocus="this.type='date'"
+                    onblur="if(this.value === '') this.type='text'">
+            </div>
+            <div class="input-group">
+                <label>🕐 Hora</label>
+                <input type="text" id="inp-hora" placeholder="Selecciona la hora"
+                    onfocus="this.type='time'"
+                    onblur="if(this.value === '') this.type='text'">
+            </div>
+            <button class="btn-whatsapp" onclick="reservar()">
+                <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                </svg>
+                Confirmar por WhatsApp
+            </button>
+        </div>
+    </main>
+
+    <footer>
+        <p>&#10022; BarberFade &nbsp;|&nbsp; Bogotá;, Colombia &nbsp;|&nbsp; <a href="tel:+573138145675">+57 313 814 5675</a> &#10022;</p>
+    </footer>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, collection, addDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyCPAxRLZDWgEBkdaL1RjL9HbC7rsNnjthM",
+    authDomain: "barberia-a944e.firebaseapp.com",
+    projectId: "barberia-a944e",
+    storageBucket: "barberia-a944e.firebasestorage.app",
+    messagingSenderId: "83047811200",
+    appId: "1:83047811200:web:93228e92c1a5acbe22be65"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const precios = {
+    barba: 20000,
+    corte: 20000,
+    cejas: 20000
+};
+
+const cantidades = {
+    barba: 0,
+    corte: 0,
+    cejas: 0
+};
+
+const EMOJI = {
+    barber: String.fromCodePoint(0x1F488),
+    scissors: String.fromCodePoint(0x2702) + String.fromCodePoint(0xFE0F),
+    fire: String.fromCodePoint(0x1F525),
+    person: String.fromCodePoint(0x1F464),
+    calendar: String.fromCodePoint(0x1F4C5),
+    clock: String.fromCodePoint(0x1F550),
+    money: String.fromCodePoint(0x1F4B0),
+    check: String.fromCodePoint(0x2705)
+};
+
+const CHAR = {
+    bullet: String.fromCharCode(0x2022),
+    arrow: String.fromCharCode(0x2192),
+    aAccent: String.fromCharCode(0x00E1)
+};
+
+(function crearParticulas() {
+    const container = document.getElementById("particles");
+    if (!container) return;
+
+    for (let i = 0; i < 28; i++) {
+        const p = document.createElement("div");
+        p.className = "particle";
+        p.style.left = Math.random() * 100 + "vw";
+        p.style.width = Math.random() * 2 + 1 + "px";
+        p.style.height = p.style.width;
+        p.style.animationDuration = Math.random() * 12 + 8 + "s";
+        p.style.animationDelay = Math.random() * 10 + "s";
+        p.style.opacity = Math.random() * 0.6 + 0.2;
+        container.appendChild(p);
+    }
+})();
+
+function cambiarCantidad(servicio, cambio) {
+    cantidades[servicio] += cambio;
+
+    if (cantidades[servicio] < 0) {
+        cantidades[servicio] = 0;
+    }
+
+    document.getElementById("cantidad-" + servicio).innerText = cantidades[servicio];
+
+    const badge = document.getElementById("badge-" + servicio);
+    badge.innerText = cantidades[servicio];
+    badge.classList.toggle("visible", cantidades[servicio] > 0);
+
+    calcularTotal();
+}
+
+function calcularTotal() {
+    const total =
+        cantidades.barba * precios.barba +
+        cantidades.corte * precios.corte +
+        cantidades.cejas * precios.cejas;
+
+    const el = document.getElementById("total");
+    el.innerText = "$" + total.toLocaleString("es-CO");
+    el.classList.remove("total-pulse");
+    void el.offsetWidth;
+    el.classList.add("total-pulse");
+}
+
+async function verificarDisponibilidad(fecha, hora) {
+    const q = query(
+        collection(db, "citas"),
+        where("fecha", "==", fecha),
+        where("hora", "==", hora),
+        where("estado", "==", "activa")
+    );
+
+    const snap = await getDocs(q);
+    return snap.empty;
+}
+
+function restaurarBtnWsp() {
+    return `
+        <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+        Confirmar por WhatsApp
+    `;
+}
+
+async function reservar() {
+    const nombre = document.getElementById("inp-nombre").value.trim();
+    const fecha = document.getElementById("inp-fecha").value;
+    const hora = document.getElementById("inp-hora").value;
+
+    let total = 0;
+    let serviciosEscogidos = [];
+
+    if (cantidades.barba > 0) {
+        const subtotal = cantidades.barba * precios.barba;
+        total += subtotal;
+        serviciosEscogidos.push(`${CHAR.bullet} Corte + barba x${cantidades.barba} ${CHAR.arrow} $${subtotal.toLocaleString("es-CO")}`);
+    }
+
+    if (cantidades.corte > 0) {
+        const subtotal = cantidades.corte * precios.corte;
+        total += subtotal;
+        serviciosEscogidos.push(`${CHAR.bullet} Solo corte x${cantidades.corte} ${CHAR.arrow} $${subtotal.toLocaleString("es-CO")}`);
+    }
+
+    if (cantidades.cejas > 0) {
+        const subtotal = cantidades.cejas * precios.cejas;
+        total += subtotal;
+        serviciosEscogidos.push(`${CHAR.bullet} Corte + cejas x${cantidades.cejas} ${CHAR.arrow} $${subtotal.toLocaleString("es-CO")}`);
+    }
+
+    if (total === 0) {
+        mostrarAlerta("Selecciona al menos un servicio");
+        return;
+    }
+
+    if (!nombre) {
+        mostrarAlerta("Ingresa tu nombre");
+        return;
+    }
+
+    if (!fecha) {
+        mostrarAlerta("Selecciona una fecha");
+        return;
+    }
+
+    if (!hora) {
+        mostrarAlerta("Selecciona una hora");
+        return;
+    }
+
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(fecha)) {
+        mostrarAlerta("La fecha no es valida");
+        return;
+    }
+
+    const hoy = new Date();
+    hoy.setHours(0, 0, 0, 0);
+
+    const fechaSeleccionada = new Date(fecha + "T00:00:00");
+
+    if (fechaSeleccionada < hoy) {
+        mostrarAlerta("No puedes reservar una fecha pasada");
+        return;
+    }
+
+    const btnWsp = document.querySelector(".btn-whatsapp");
+    btnWsp.disabled = true;
+    btnWsp.innerHTML = "Verificando disponibilidad...";
+
+    try {
+        const disponible = await verificarDisponibilidad(fecha, hora);
+
+        if (!disponible) {
+            mostrarAlerta("Ese horario ya esta reservado");
+            btnWsp.disabled = false;
+            btnWsp.innerHTML = restaurarBtnWsp();
+            return;
+        }
+
+        await addDoc(collection(db, "citas"), {
+            nombre,
+            fecha,
+            hora,
+            servicios: serviciosEscogidos,
+            total,
+            estado: "activa",
+            creadoEn: new Date().toISOString()
+        });
+
+        const partes = fecha.split("-");
+        const anio = partes[0];
+        const mesNum = partes[1];
+        const dia = partes[2];
+
+        const meses = [
+            "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+            "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+        ];
+
+        const nombreMes = meses[parseInt(mesNum, 10) - 1];
+        const fechaFormateada = `${dia} de ${nombreMes} de ${anio}`;
+        const marca = "Mond" + CHAR.aAccent + "Barber";
+
+        const mensaje =
+`${EMOJI.barber} *Hola ${marca}* ${EMOJI.scissors}
+
+${EMOJI.fire} *Quiero reservar una cita*
+
+${EMOJI.person} *Nombre:* ${nombre}
+${EMOJI.calendar} *Fecha:* ${fechaFormateada}
+${EMOJI.clock} *Hora:* ${hora}
+
+----------------
+
+${EMOJI.barber} *Servicios:*
+${serviciosEscogidos.join("\n")}
+
+----------------
+
+${EMOJI.money} *Total:* $${total.toLocaleString("es-CO")}
+
+${EMOJI.check} *Gracias por preferir ${marca}*`;
+
+        mostrarAlerta("Cita guardada. Redirigiendo a WhatsApp...");
+
+        setTimeout(() => {
+            const url = "https://api.whatsapp.com/send?phone=573138145675&text=" + encodeURIComponent(mensaje);
+            window.open(url, "_blank");
+
+            btnWsp.disabled = false;
+            btnWsp.innerHTML = restaurarBtnWsp();
+        }, 1200);
+
+    } catch (error) {
+        console.error(error);
+        mostrarAlerta("Hubo un error, intenta nuevamente");
+        btnWsp.disabled = false;
+        btnWsp.innerHTML = restaurarBtnWsp();
+    }
+}
+
+function mostrarAlerta(msg) {
+    const prev = document.getElementById("alerta-custom");
+
+    if (prev) {
+        prev.remove();
+    }
+
+    const a = document.createElement("div");
+    a.id = "alerta-custom";
+    a.style.cssText = "position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(20px);background:linear-gradient(135deg,#1a1500,#2a2000);border:1px solid rgba(255,204,0,0.5);color:#ffcc00;padding:14px 28px;border-radius:50px;font-family:DM Sans,sans-serif;font-size:14px;font-weight:500;box-shadow:0 10px 40px rgba(0,0,0,0.6);z-index:9999;opacity:0;transition:all 0.35s cubic-bezier(0.34,1.56,0.64,1);white-space:nowrap";
+    a.innerText = msg;
+
+    document.body.appendChild(a);
+
+    requestAnimationFrame(() => {
+        a.style.opacity = "1";
+        a.style.transform = "translateX(-50%) translateY(0)";
+    });
+
+    setTimeout(() => {
+        a.style.opacity = "0";
+        a.style.transform = "translateX(-50%) translateY(10px)";
+        setTimeout(() => a.remove(), 400);
+    }, 3000);
+}
+
+window.cambiarCantidad = cambiarCantidad;
+window.reservar = reservar;
+</script>
+</body>
+</html>
